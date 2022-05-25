@@ -1,4 +1,3 @@
-export function data() {
 
     const questions = []
 
@@ -13852,4 +13851,3 @@ export function data() {
         }
 
     ];
-}
