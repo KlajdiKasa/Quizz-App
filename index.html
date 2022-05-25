@@ -205,6 +205,47 @@
         .neutralcircleColor {
             background-color: #bbb
         }
+
+
+
+        .pulse {
+
+ 
+  cursor: pointer;
+  animation: pulse 1s infinite;
+}
+
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgb(204, 169, 44);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.453);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.389);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgb(204, 169, 44);
+    box-shadow: 0 0 0 0 rgb(204, 169, 44);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.366);
+      box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.304);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.305);
+      box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.189);
+  }
+}
+
+
+
+
+
     </style>
 
     <title>Quizz: Infermieri Pytjet</title>
@@ -223,7 +264,7 @@
 
         <div id="question-container" class="hide">
             <div id="SuccessRate"></div>
-            <span id="SuccessRate1" class="dot"></span>
+            <span id="SuccessRate1" class="dot pulse"></span>
             <span id="SuccessRate2" class="dot"></span>
             <span id="SuccessRate3" class="dot"></span>
             <span id="SuccessRate4" class="dot"></span>
@@ -354,8 +395,8 @@
             let User = inputClassTxt.value
             let pw = inputClassPw.value
 
-             if ( User == "Failed" && pw == "Correct") {
-           // if (true) {
+            //if (User == "Failed" && pw == "Correct") {
+            if (true) {
                 Question10StartButton.classList.remove('hide')
                 Question20StartButton.classList.remove('hide')
                 Question30StartButton.classList.remove('hide')
@@ -399,7 +440,7 @@
         var hours = 0;
         var timer
         function startGame(e) {
-            //  console.log(e.id)
+            //  //console.log(e.id)
             sec = 0;
             min = 0;
             hours = 0;
@@ -483,29 +524,44 @@
             questionTxt = question.questions
 
             //Show Success Rate
+            //Show Success Rate
             var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
-            let obj = oldItems.find(o => o.Question === questionTxt);
+            var obj = oldItems.find(o => o.Question === questionTxt);
 
             if (obj != null) {
-
-
                 for (let i = 0; i < obj.LastExecutions.length; i++) {
 
-                    if (i >= 5) { break; }
+                    if (i >= 5) { 
+                       break;
+                     }
 
 
 
                     if (obj.LastExecutions[i] === false) {
-                        console.log("Red")
-                        SuccessRateArray[i].classList.add('red')
-                        SuccessRateArray[i].classList.remove('green')
+                        console.log("red", i)
+
+                        if (i <= 3) {
+                            SuccessRateArray[i ].classList.remove('green')
+                            SuccessRateArray[i ].classList.remove('red')
+  
+                            SuccessRateArray[i + 1].classList.remove('green')
+                            SuccessRateArray[i + 1].classList.remove('red')
+                        }
                         SuccessRate1.classList.remove('neutralcircleColor')
+
+                        SuccessRateArray[i].classList.add('red')
                     } else {
 
-                        console.log("green")
+                        console.log("green", i)
+                        if (i <=3) {
+                            SuccessRateArray[i ].classList.remove('green')
+                            SuccessRateArray[i ].classList.remove('red')
+  
+                            SuccessRateArray[i + 1].classList.remove('red')
+                            SuccessRateArray[i + 1].classList.remove('green')
+                            SuccessRate1.classList.remove('neutralcircleColor')
+                        }
                         SuccessRateArray[i].classList.add('green')
-                        SuccessRateArray[i].classList.remove('red')
-                        SuccessRate1.classList.remove('neutralcircleColor')
 
                     }
 
@@ -515,6 +571,7 @@
                 //SuccessRate.innerText = obj.LastExecutions
             } else {
                 SuccessRate1.classList.add('neutralcircleColor')
+
             }
 
             questionElement.innerText = question.questions
@@ -568,10 +625,10 @@
 
 
             var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
-            console.log("OLD ITeMS", oldItems)
+            //console.log("OLD ITeMS", oldItems)
             //check at Local Storage if it exists
             let obj = oldItems.find(o => o.Question === questionTxt);
-            console.log("obj", obj)
+            //console.log("obj", obj)
 
             //localStorage.removeItem('myArray')
             //Correct Answer
@@ -579,7 +636,7 @@
 
                 //If item not exist add it
                 if (obj == null) {
-                    console.log("New Item", obj)
+                    //console.log("New Item", obj)
                     var newItem = {
                         'Question': questionTxt,
                         'LastExecutions': [true]
@@ -592,13 +649,13 @@
                     //mark as Executed by adding to index 0 true/False
                     obj.LastExecutions.splice(0, 0, true)
 
-                    // console.log("Updated: ",obj)
+                    // //console.log("Updated: ",obj)
 
                     //remove found obj from oldItems
                     var index = oldItems.indexOf(obj)
                     if (index !== -1) {
                         oldItems.splice(index, 1);
-                        console.log("Old Item Deleted")
+                        //console.log("Old Item Deleted")
                     }
 
                     //Add Updated obj to OldItems 
@@ -613,7 +670,7 @@
             } else {
                 //If item not exist add it
                 if (obj == null) {
-                    console.log("New Item")
+                    //console.log("New Item")
                     var newItem = {
                         'Question': questionTxt,
                         'LastExecutions': [false]
@@ -625,13 +682,13 @@
                     //mark as Executed by adding to index 0 true/False
                     obj.LastExecutions.splice(0, 0, false)
 
-                    // console.log("Updated: ",obj)
+                    //console.log("Updated: ",obj)
 
                     //remove found obj from oldItems
                     var index = oldItems.indexOf(obj)
                     if (index !== -1) {
                         oldItems.splice(index, 1);
-                        console.log("Old Item Deleted")
+                        //console.log("Old Item Deleted")
                     }
 
                     //Add Updated obj to OldItems 
@@ -658,13 +715,13 @@
 
 
                 if (obj.LastExecutions[i] === false) {
-                    console.log("Red")
+                    //console.log("Red")
                     SuccessRateArray[i].classList.add('red')
                     SuccessRateArray[i].classList.remove('green')
                     SuccessRate1.classList.remove('neutralcircleColor')
                 } else {
 
-                    console.log("green")
+                    //console.log("green")
                     SuccessRateArray[i].classList.add('green')
                     SuccessRateArray[i].classList.remove('red')
                     SuccessRate1.classList.remove('neutralcircleColor')
