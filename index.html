@@ -210,42 +210,42 @@
 
         .pulse {
 
- 
-  cursor: pointer;
-  animation: pulse 1s infinite;
-}
+
+            cursor: pointer;
+            animation: pulse 1s infinite;
+        }
 
 
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-box-shadow: 0 0 0 0 rgb(204, 169, 44);
-  }
-  70% {
-      -webkit-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.453);
-  }
-  100% {
-      -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.389);
-  }
-}
-@keyframes pulse {
-  0% {
-    -moz-box-shadow: 0 0 0 0 rgb(204, 169, 44);
-    box-shadow: 0 0 0 0 rgb(204, 169, 44);
-  }
-  70% {
-      -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.366);
-      box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.304);
-  }
-  100% {
-      -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.305);
-      box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.189);
-  }
-}
+        @-webkit-keyframes pulse {
+            0% {
+                -webkit-box-shadow: 0 0 0 0 rgb(204, 169, 44);
+            }
 
+            70% {
+                -webkit-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.453);
+            }
 
+            100% {
+                -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.389);
+            }
+        }
 
+        @keyframes pulse {
+            0% {
+                -moz-box-shadow: 0 0 0 0 rgb(204, 169, 44);
+                box-shadow: 0 0 0 0 rgb(204, 169, 44);
+            }
 
+            70% {
+                -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.366);
+                box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.304);
+            }
 
+            100% {
+                -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.305);
+                box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.189);
+            }
+        }
     </style>
 
     <title>Quizz: Infermieri Pytjet</title>
@@ -395,8 +395,8 @@
             let User = inputClassTxt.value
             let pw = inputClassPw.value
 
-            if (User == "Failed" && pw == "Correct") {
-            //if (true) {
+            // if (User == "Failed" && pw == "Correct") {
+            if (true) {
                 Question10StartButton.classList.remove('hide')
                 Question20StartButton.classList.remove('hide')
                 Question30StartButton.classList.remove('hide')
@@ -528,41 +528,39 @@
             var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
             var obj = oldItems.find(o => o.Question === questionTxt);
 
+
+            //Remove Red/Green/Neutral Colors
+            for (var s = 0; s <= SuccessRateArray.length - 1; s++) {
+
+                SuccessRateArray[s].classList.remove('green')
+                SuccessRateArray[s].classList.remove('red')
+                SuccessRateArray[s].classList.add('neutralcircleColor')
+            }
+
             if (obj != null) {
                 for (let i = 0; i < obj.LastExecutions.length; i++) {
 
-                    if (i >= 5) { 
-                       break;
-                     }
+                    if (i >= 5) {
+                        break;
+                    }
 
 
 
                     if (obj.LastExecutions[i] === false) {
                         console.log("red", i)
 
-                        if (i <= 3) {
-                            SuccessRateArray[i ].classList.remove('green')
-                            SuccessRateArray[i ].classList.remove('red')
-  
-                            SuccessRateArray[i + 1].classList.remove('green')
-                            SuccessRateArray[i + 1].classList.remove('red')
-                        }
-                        SuccessRate1.classList.remove('neutralcircleColor')
+
+                        SuccessRateArray[i].classList.remove('neutralcircleColor')
 
                         SuccessRateArray[i].classList.add('red')
+                        console.log(SuccessRateArray[i])
                     } else {
 
                         console.log("green", i)
-                        if (i <=3) {
-                            SuccessRateArray[i ].classList.remove('green')
-                            SuccessRateArray[i ].classList.remove('red')
-  
-                            SuccessRateArray[i + 1].classList.remove('red')
-                            SuccessRateArray[i + 1].classList.remove('green')
-                            SuccessRate1.classList.remove('neutralcircleColor')
-                        }
-                        SuccessRateArray[i].classList.add('green')
+                        SuccessRateArray[i].classList.remove('neutralcircleColor')
 
+                        SuccessRateArray[i].classList.add('green')
+                        console.log(SuccessRateArray[i])
                     }
 
                 }
@@ -570,8 +568,13 @@
 
                 //SuccessRate.innerText = obj.LastExecutions
             } else {
-                SuccessRate1.classList.add('neutralcircleColor')
+                //SuccessRate1.classList.add('neutralcircleColor')
 
+                for (var s = 0; s <= SuccessRateArray.length - 1; s++) {
+                    SuccessRateArray[s].classList.remove('green')
+                    SuccessRateArray[s].classList.remove('red')
+                    SuccessRateArray[s].classList.remove('neutralcircleColor')
+                }
             }
 
             questionElement.innerText = question.questions
@@ -708,24 +711,35 @@
             //Show Success Rate
             oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
             obj = oldItems.find(o => o.Question === questionTxt);
+
+            //Remove Red/Green/Neutral Colors
+            for (var s = 0; s <= SuccessRateArray.length - 1; s++) {
+
+                SuccessRateArray[s].classList.remove('green')
+                SuccessRateArray[s].classList.remove('red')
+                SuccessRateArray[s].classList.add('neutralcircleColor')
+            }
+
             for (let i = 0; i < obj.LastExecutions.length; i++) {
 
                 if (i >= 5) { break; }
 
 
-
                 if (obj.LastExecutions[i] === false) {
-                    //console.log("Red")
+                    console.log("red", i)
+
+
+                    SuccessRateArray[i].classList.remove('neutralcircleColor')
+
                     SuccessRateArray[i].classList.add('red')
-                    SuccessRateArray[i].classList.remove('green')
-                    SuccessRate1.classList.remove('neutralcircleColor')
+                    console.log(SuccessRateArray[i])
                 } else {
 
-                    //console.log("green")
-                    SuccessRateArray[i].classList.add('green')
-                    SuccessRateArray[i].classList.remove('red')
-                    SuccessRate1.classList.remove('neutralcircleColor')
+                    console.log("green", i)
+                    SuccessRateArray[i].classList.remove('neutralcircleColor')
 
+                    SuccessRateArray[i].classList.add('green')
+                    console.log(SuccessRateArray[i])
                 }
 
             }
@@ -804,7 +818,7 @@
                     { text: 'C) Autonomia', correct: false },
                     { text: 'D) Infermieristika', correct: true },]
             },
-            
+
             {
                 questions: 'Në zhvillimin e kujdesjeve dhe shtrirjen e roleve infermierore bën pjesë ?', answers: [
                     { text: 'A) Infermieri anestezist', correct: false },
