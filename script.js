@@ -1,21 +1,15 @@
-
-
-
 const finishButton = document.getElementById('finish-btn')
 const nextButton = document.getElementById('next-btn')
-
 const Question10StartButton = document.getElementById('10QuestionStart-btn')
 const Question20StartButton = document.getElementById('20QuestionStart-btn')
 const Question30StartButton = document.getElementById('30QuestionStart-btn')
 const Question50StartButton = document.getElementById('50QuestionStart-btn')
 const AllQuestionStart = document.getElementById('AllQuestionStart-btn')
-
 const loginBtn = document.getElementById('logbtn')
 const inputClassTxt = document.getElementById('inputClassTxt');
 const inputClassPw = document.getElementById('inputClassPw');
 const alertBoxID = document.getElementById('alertBoxID');
 const alertBox_X_btn = document.getElementById('alertBox_X_btn');
-
 const SuccessRate = document.getElementById('SuccessRate');
 const SuccessRate1 = document.getElementById('SuccessRate1');
 const SuccessRate2 = document.getElementById('SuccessRate2');
@@ -26,12 +20,18 @@ const maintTitle = document.getElementById('mainTitleEl')
 const questionElement = document.getElementById('question')
 const answeButtonsElement = document.getElementById('answer-buttons')
 const scoreElement = document.getElementById('scoreID')
-
 const scoreFailItem = document.getElementById('failItemsID')
 const scoreSuccesItem = document.getElementById('successItemsID')
 const resultsItem = document.getElementById('resuldsID')
 const timerElement = document.getElementById('timer')
 const questionContainerElement = document.getElementById('question-container')
+const confetti = document.getElementById("confettiID")
+
+//Progress Bar
+const prog_bar_cont = document.getElementById("prog-bar-cont")
+const prog_bar = document.getElementById("prog-bar")
+const pro_bar_background = document.getElementById("background")
+
 let shuffledQuestions
 let currentQuestionIndex
 
@@ -189,6 +189,8 @@ function startGame(e) {
     Question20StartButton.classList.add('hide')
     Question30StartButton.classList.add('hide')
     Question50StartButton.classList.add('hide')
+    confetti.classList.add('hide')
+    timerElement.classList.remove('pulse')
     AllQuestionStart.classList.add('hide')
 
 
@@ -211,6 +213,16 @@ function setNextQuestion() {
 
 var questionTxt
 function showQuestion(question) {
+
+    
+   
+    var bar= currentQuestionIndex/shuffledQuestions.length 
+    bar=bar*100
+    bar=bar+"%"
+    console.log( bar )
+    //Set Progress Bar
+    pro_bar_background.style.width = bar
+   
 
     questionTxt = question.questions
 
@@ -238,20 +250,20 @@ function showQuestion(question) {
 
 
             if (obj.LastExecutions[i] === false) {
-                console.log("red", i)
+               // console.log("red", i)
 
 
                 SuccessRateArray[i].classList.remove('neutralcircleColor')
 
                 SuccessRateArray[i].classList.add('red')
-                console.log(SuccessRateArray[i])
+               //console.log(SuccessRateArray[i])
             } else {
 
-                console.log("green", i)
+                //console.log("green", i)
                 SuccessRateArray[i].classList.remove('neutralcircleColor')
 
                 SuccessRateArray[i].classList.add('green')
-                console.log(SuccessRateArray[i])
+                //console.log(SuccessRateArray[i])
             }
 
         }
@@ -278,10 +290,6 @@ function showQuestion(question) {
     resultsItem.classList.remove('hide');
     scoreSuccesItem.innerText = "Correct: " + currentSuccessPoints
     scoreFailItem.innerText = "Failed: " + currentFailedPoints
-
-
-
-
 
     question.answers.forEach(answer => {
 
@@ -417,20 +425,20 @@ function selectAnswer(e) {
 
 
         if (obj.LastExecutions[i] === false) {
-            console.log("red", i)
+           // console.log("red", i)
 
 
             SuccessRateArray[i].classList.remove('neutralcircleColor')
 
             SuccessRateArray[i].classList.add('red')
-            console.log(SuccessRateArray[i])
+            //console.log(SuccessRateArray[i])
         } else {
 
-            console.log("green", i)
+            //console.log("green", i)
             SuccessRateArray[i].classList.remove('neutralcircleColor')
 
             SuccessRateArray[i].classList.add('green')
-            console.log(SuccessRateArray[i])
+            //console.log(SuccessRateArray[i])
         }
 
     }
@@ -455,12 +463,18 @@ function selectAnswer(e) {
 
 function endGame() {
 
+    loginBtn.innerText="Restart"
+    loginBtn.classList.remove('hide')
+    pro_bar_background.style.width = "100%"
+   /*
     Question10StartButton.classList.remove('hide')
     Question20StartButton.classList.remove('hide')
     Question30StartButton.classList.remove('hide')
     Question50StartButton.classList.remove('hide')
     AllQuestionStart.classList.remove('hide')
-
+*/
+    confetti.classList.remove('hide')
+    timerElement.classList.add('pulse')
 
     const buttonAnswer = document.getElementById('question-container')
     buttonAnswer.classList.add('hide')
