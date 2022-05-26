@@ -38,10 +38,7 @@ let currentQuestionIndex
 var currentSuccessPoints = 0
 var currentFailedPoints = 0
 
-var sec = 0;
-var min = 0;
-var hours = 0;
-var timer
+
 
 var SuccessRateArray = [];
 SuccessRateArray.push(SuccessRate1)
@@ -128,31 +125,43 @@ function closeAlertMthd() {
     alertBoxID.classList.add('hide')
 }
 
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
 
+let displaySec = seconds;
+let displayMins = minutes;
+let displayHours = hours;
+
+function startStopwatch(){
+    seconds++;
+  
+    if (seconds < 10) displaySec = "0" + seconds.toString();
+    else displaySec = seconds;
+  
+    if (minutes < 10) displayMins = "0" + minutes.toString();
+    else displayMins = minutes;
+  
+    if (hours < 10) displayHours = "0" + hours.toString();
+    else displayHours = hours;
+  
+      if (seconds / 60 === 1) {
+        minutes++;
+        seconds = 0;
+  
+        if (minutes / 60 === 1) {
+          hours++;
+          minutes = 0;
+        }
+      }
+   
+    timerElement.innerText=displayHours+":"+displayMins+":"+displaySec 
+}
 
 function startGame(e) {
-    //  //console.log(e.id)
-    sec = 0;
-    min = 0;
-    hours = 0;
+  
 
-
-    timerElement.innerText = "Time: " + hours + "h " + min + "m " + sec + "s"
-
-    timer = setInterval(function () {
-
-        timerElement.innerText = "Time: " + hours + "h " + min + "m " + sec + "s"
-
-        if (sec >= 59) {
-            sec = 0;
-            min = min + 1
-
-        } if (min >= 59) {
-            hours = hours + 1
-            min = 0;
-        }
-        sec++;
-    }, 1000)
+    timer = setInterval(startStopwatch, 1000)
 
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     var TotalArrayLength = shuffledQuestions.length
@@ -214,15 +223,15 @@ function setNextQuestion() {
 var questionTxt
 function showQuestion(question) {
 
-    
-   
-    var bar= currentQuestionIndex/shuffledQuestions.length 
-    bar=bar*100
-    bar=bar+"%"
-    console.log( bar )
+
+
+    var bar = currentQuestionIndex / shuffledQuestions.length
+    bar = bar * 100
+    bar = bar + "%"
+    console.log(bar)
     //Set Progress Bar
     pro_bar_background.style.width = bar
-   
+
 
     questionTxt = question.questions
 
@@ -250,13 +259,13 @@ function showQuestion(question) {
 
 
             if (obj.LastExecutions[i] === false) {
-               // console.log("red", i)
+                // console.log("red", i)
 
 
                 SuccessRateArray[i].classList.remove('neutralcircleColor')
 
                 SuccessRateArray[i].classList.add('red')
-               //console.log(SuccessRateArray[i])
+                //console.log(SuccessRateArray[i])
             } else {
 
                 //console.log("green", i)
@@ -283,7 +292,7 @@ function showQuestion(question) {
     questionElement.innerText = question.questions
 
     var calculatedIndex = currentQuestionIndex + 1
-    scoreElement.innerText = "Executing: " + calculatedIndex + " of " + shuffledQuestions.length
+    scoreElement.innerText = calculatedIndex + " of " + shuffledQuestions.length
     scoreElement.classList.remove('hide')
     scoreSuccesItem.classList.remove('hide')
     scoreFailItem.classList.remove('hide')
@@ -425,7 +434,7 @@ function selectAnswer(e) {
 
 
         if (obj.LastExecutions[i] === false) {
-           // console.log("red", i)
+            // console.log("red", i)
 
 
             SuccessRateArray[i].classList.remove('neutralcircleColor')
@@ -463,16 +472,16 @@ function selectAnswer(e) {
 
 function endGame() {
 
-    loginBtn.innerText="Restart"
+    loginBtn.innerText = "Restart"
     loginBtn.classList.remove('hide')
     pro_bar_background.style.width = "100%"
-   /*
-    Question10StartButton.classList.remove('hide')
-    Question20StartButton.classList.remove('hide')
-    Question30StartButton.classList.remove('hide')
-    Question50StartButton.classList.remove('hide')
-    AllQuestionStart.classList.remove('hide')
-*/
+    /*
+     Question10StartButton.classList.remove('hide')
+     Question20StartButton.classList.remove('hide')
+     Question30StartButton.classList.remove('hide')
+     Question50StartButton.classList.remove('hide')
+     AllQuestionStart.classList.remove('hide')
+ */
     confetti.classList.remove('hide')
     timerElement.classList.add('pulse')
 

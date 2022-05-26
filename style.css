@@ -193,9 +193,6 @@ h3 {
 
 
 .pulse {
-
-
-    cursor: pointer;
     animation: pulse 1s infinite;
 }
 
@@ -210,7 +207,7 @@ h3 {
     }
 
     100% {
-        -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.389);
+        -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.189);
     }
 }
 
@@ -222,7 +219,7 @@ h3 {
 
     70% {
         -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.366);
-        box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.304);
+        box-shadow: 0 0 0 10px rgba(204, 169, 44, 0.104);
     }
 
     100% {
@@ -390,6 +387,11 @@ h3 {
     clip-path: inset(0 0 0 0);
     transition: all 3s;
     -webkit-transition:    all 3s;
+  }
+  h5{
+   
+      border-radius: 40%;
+      display: inline-block;
   }
   
  
