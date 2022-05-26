@@ -111,6 +111,12 @@ body {
 
 .disabled {
     pointer-events: none;
+    border: double;  
+}
+.disabledPreviousBtn{
+    pointer-events: none;
+    
+    background-color: rgba(46, 49, 87, 0.446); 
 }
 
 .result-class-child {

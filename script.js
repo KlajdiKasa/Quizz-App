@@ -1,5 +1,6 @@
 const finishButton = document.getElementById('finish-btn')
 const nextButton = document.getElementById('next-btn')
+const previousButton = document.getElementById('previous-btn')
 const Question10StartButton = document.getElementById('10QuestionStart-btn')
 const Question20StartButton = document.getElementById('20QuestionStart-btn')
 const Question30StartButton = document.getElementById('30QuestionStart-btn')
@@ -34,6 +35,7 @@ const pro_bar_background = document.getElementById("background")
 
 let shuffledQuestions
 let currentQuestionIndex
+let previousQuestionIndex
 
 var currentSuccessPoints = 0
 var currentFailedPoints = 0
@@ -95,6 +97,11 @@ if (nextButton) {
     })
 }
 
+if (previousButton) {
+    previousButton.addEventListener('click', () => {
+        previousQuestion()
+    })
+}
 
 
 function loginMth() {
@@ -133,33 +140,32 @@ let displaySec = seconds;
 let displayMins = minutes;
 let displayHours = hours;
 
-function startStopwatch(){
+function startStopwatch() {
     seconds++;
-  
+
     if (seconds < 10) displaySec = "0" + seconds.toString();
     else displaySec = seconds;
-  
+
     if (minutes < 10) displayMins = "0" + minutes.toString();
     else displayMins = minutes;
-  
+
     if (hours < 10) displayHours = "0" + hours.toString();
     else displayHours = hours;
-  
-      if (seconds / 60 === 1) {
+
+    if (seconds / 60 === 1) {
         minutes++;
         seconds = 0;
-  
+
         if (minutes / 60 === 1) {
-          hours++;
-          minutes = 0;
+            hours++;
+            minutes = 0;
         }
-      }
-   
-    timerElement.innerText=displayHours+":"+displayMins+":"+displaySec 
+    }
+
+    timerElement.innerText = displayHours + ":" + displayMins + ":" + displaySec
 }
 
 function startGame(e) {
-  
 
     timer = setInterval(startStopwatch, 1000)
 
@@ -205,6 +211,7 @@ function startGame(e) {
 
 
     currentQuestionIndex = 0
+    previousQuestionIndex = 0
 
     questionContainerElement.classList.remove('hide')
     currentSuccessPoints = 0
@@ -216,23 +223,48 @@ function startGame(e) {
 
 function setNextQuestion() {
     resetState()
-    showQuestion(shuffledQuestions[currentQuestionIndex])
+    showQuestion(shuffledQuestions[currentQuestionIndex], currentQuestionIndex)
+    previousButton.classList.remove('disabledPreviousBtn')
+
+}
+
+function previousQuestion() {
+    // resetState()
+    if (currentQuestionIndex <= 0) {
+        console.log("currentQuestionIndex= ", currentQuestionIndex);
+    } else {
+        currentQuestionIndex = currentQuestionIndex - 1
+        showQuestion(shuffledQuestions[currentQuestionIndex], currentQuestionIndex)
+        // console.log(answeButtonsElement.childNodes)
+
+        for (var i = 1; i <= answeButtonsElement.childNodes.length; i++) {
+
+            answeButtonsElement.removeChild(answeButtonsElement.firstChild)
+
+        }
+        Array.from(answeButtonsElement.children).forEach(button => {
+            setStatusClass(button, button.dataset.correct)
+            button.classList.add('disabled')
+
+        })
+    }
+    previousButton.classList.add('disabledPreviousBtn')
 
 }
 
 var questionTxt
-function showQuestion(question) {
+function showQuestion(question, currentQuestionIndex) {
 
 
 
     var bar = currentQuestionIndex / shuffledQuestions.length
     bar = bar * 100
     bar = bar + "%"
-    console.log(bar)
+
     //Set Progress Bar
     pro_bar_background.style.width = bar
 
-
+    // console.log("Show Question",question)
     questionTxt = question.questions
 
     //Show Success Rate
@@ -314,16 +346,42 @@ function showQuestion(question) {
         buttonAnswers.addEventListener('click', selectAnswer)
         answeButtonsElement.appendChild(buttonAnswers)
     });
+
+    //Disable if the PreviousBtn is clicked
+    if (previousButton.classList.contains('disabledPreviousBtn')) {
+        console.log("disabledPreviousBtn", true)
+        console.log(Array.from(answeButtonsElement.children))
+        nextButton.classList.remove('hide')
+        previousButton.classList.remove('hide')
+        Array.from(answeButtonsElement.children).forEach(button => {
+            setStatusClass(button, button.dataset.correct)
+            button.classList.add('disabled')
+            //console.log(answeButtonsElement.children)
+
+
+        })
+    }
+
+
 }
 function resetState() {
     // clearStatatusClass(document.body)
     nextButton.classList.add('hide')
+    previousButton.classList.add('hide')
     while (answeButtonsElement.firstChild) {
         answeButtonsElement.removeChild(answeButtonsElement.firstChild)
     }
 
 }
 function selectAnswer(e) {
+
+   // console.log(previousButton)
+    if (currentQuestionIndex == 0) {
+       // console.log(" currentQuestionIndex",currentQuestionIndex )
+        previousButton.classList.add('hide')
+    }else{
+        previousButton.classList.remove('hide')
+    }
     const selectedButton = e.target
     const correct = selectedButton.dataset.correct
     //setStatusClass(document.body, correct)
@@ -455,6 +513,7 @@ function selectAnswer(e) {
 
     if (shuffledQuestions.length > currentQuestionIndex + 1) {
         nextButton.classList.remove('hide')
+        
     } else {
 
         //Finished----------------------------------------------------------------------------------------
