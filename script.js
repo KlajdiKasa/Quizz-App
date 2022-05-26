@@ -521,6 +521,7 @@ function selectAnswer(e) {
         //Show Finish Button
         finishButton.innerText = "Finish"
         finishButton.classList.remove('hide')
+        previousButton.classList.add('hide')
 
     };
 
